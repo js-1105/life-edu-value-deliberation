@@ -278,13 +278,14 @@ body.no-clickzones .click-zones{display:none}
 <!-- 課前作業分組 QR -->
 <section class="slide">
   <h2>分兩題討論，掃 QR 把全組精華打上來</h2>
-  <p class="lead qr-intro" style="text-align:left"><b>第 1–3 組</b>討論第一題（卡繆）、<b>第 4–5 組</b>討論第二題（飲食指南）；各組掃自己的碼，把<b>討論精華</b>打上來，不只一句。</p>
+  <p class="lead qr-intro" style="text-align:left"><b>靈修 1＋3 組</b> → 討論第 1–3 組（第一題·卡繆）；<b>靈修 2＋4 組</b> → 討論第 4–6 組（第二題·飲食指南）。每組 8 人（併坐後報數 1-2-3 分組），各組派一位掃自己的碼，把<b>討論精華</b>打上來，不只一句。</p>
   <div class="qr-stage">
     <div class="qr-card" style="--c:#862633"><div class="qr-box" data-pg="1"></div><div class="qr-cap">第1組<small>第一題·卡繆</small></div></div>
     <div class="qr-card" style="--c:#A8782E"><div class="qr-box" data-pg="2"></div><div class="qr-cap">第2組<small>第一題·卡繆</small></div></div>
     <div class="qr-card" style="--c:#1E5F74"><div class="qr-box" data-pg="3"></div><div class="qr-cap">第3組<small>第一題·卡繆</small></div></div>
     <div class="qr-card" style="--c:#6B5635"><div class="qr-box" data-pg="4"></div><div class="qr-cap">第4組<small>第二題·飲食指南</small></div></div>
     <div class="qr-card" style="--c:#5C1A23"><div class="qr-box" data-pg="5"></div><div class="qr-cap">第5組<small>第二題·飲食指南</small></div></div>
+    <div class="qr-card" style="--c:#3E7D5A"><div class="qr-box" data-pg="6"></div><div class="qr-cap">第6組<small>第二題·飲食指南</small></div></div>
   </div>
 </section>
 
@@ -294,6 +295,7 @@ body.no-clickzones .click-zones{display:none}
 <section class="slide gpage" style="--c:#1E5F74"><h2><span class="g-dot"></span>第3組 · 第一題 卡繆會怎麼選</h2><div class="gbox" id="pg3"></div><div class="daiuda" data-pg="3"><span class="tag">無網路時·老師代打</span><input type="text" placeholder="代打討論精華，Enter 送出"><button class="btn" onclick="U3dai(this.closest('.daiuda'))">送出</button></div></section>
 <section class="slide gpage" style="--c:#6B5635"><h2><span class="g-dot"></span>第4組 · 第二題 飲食指南改了什麼</h2><div class="gbox" id="pg4"></div><div class="daiuda" data-pg="4"><span class="tag">無網路時·老師代打</span><input type="text" placeholder="代打討論精華，Enter 送出"><button class="btn" onclick="U3dai(this.closest('.daiuda'))">送出</button></div></section>
 <section class="slide gpage" style="--c:#5C1A23"><h2><span class="g-dot"></span>第5組 · 第二題 飲食指南改了什麼</h2><div class="gbox" id="pg5"></div><div class="daiuda" data-pg="5"><span class="tag">無網路時·老師代打</span><input type="text" placeholder="代打討論精華，Enter 送出"><button class="btn" onclick="U3dai(this.closest('.daiuda'))">送出</button></div></section>
+<section class="slide gpage" style="--c:#3E7D5A"><h2><span class="g-dot"></span>第6組 · 第二題 飲食指南改了什麼</h2><div class="gbox" id="pg6"></div><div class="daiuda" data-pg="6"><span class="tag">無網路時·老師代打</span><input type="text" placeholder="代打討論精華，Enter 送出"><button class="btn" onclick="U3dai(this.closest('.daiuda'))">送出</button></div></section>
 
 <!-- 從作業看見：價值思辨的範疇 -->
 <section class="slide">
@@ -920,7 +922,7 @@ window.U3=(function(){
   const configured=()=>window.FB_CONFIG&&FB_CONFIG.apiKey&&FB_CONFIG.apiKey.indexOf('PASTE')<0;
   const listify=o=>o?Object.keys(o).sort((a,b)=>(o[a].t||0)-(o[b].t||0)).map(k=>o[k].txt):[];
   let root=null, online=false;
-  let PRE={1:[],2:[],3:[],4:[],5:[]};   // 課前作業五組
+  let PRE={1:[],2:[],3:[],4:[],5:[],6:[]};   // 課前作業六組
   let KAO={1:[],2:[],3:[],4:[],5:[]};   // 考城隍五組
   let CLOUDS={ethics:[]};               // 倫理學問題雲
   const LK='u3_'+ROOM;
@@ -933,7 +935,7 @@ window.U3=(function(){
     try{
       firebase.initializeApp(window.FB_CONFIG);
       root=firebase.database().ref('rooms/'+ROOM);
-      [1,2,3,4,5].forEach(g=>root.child('prologue/g'+g).on('value',s=>{PRE[g]=listify(s.val()||{});renderPre(g);}));
+      [1,2,3,4,5,6].forEach(g=>root.child('prologue/g'+g).on('value',s=>{PRE[g]=listify(s.val()||{});renderPre(g);}));
       [1,2,3,4,5].forEach(g=>root.child('kaocheng/g'+g).on('value',s=>{KAO[g]=listify(s.val()||{});renderKao(g);}));
       ['ethics'].forEach(p=>root.child('clouds/'+p).on('value',s=>{CLOUDS[p]=listify(s.val()||{});renderCloud(p);}));
       online=true; setStatus();
@@ -1014,7 +1016,7 @@ window.U3=(function(){
   function csvCell(s){return '"'+String(s==null?'':s).replace(/"/g,'""')+'"';}
   function downloadCSV(stamp){
     var rows=[['房號','區段','組別','內容']];
-    [1,2,3,4,5].forEach(g=>(PRE[g]||[]).forEach(t=>rows.push([ROOM,'課前作業精華','第'+g+'組',t])));
+    [1,2,3,4,5,6].forEach(g=>(PRE[g]||[]).forEach(t=>rows.push([ROOM,'課前作業精華','第'+g+'組',t])));
     [1,2,3,4,5].forEach(g=>(KAO[g]||[]).forEach(t=>rows.push([ROOM,'考城隍討論','第'+g+'組',t])));
     (CLOUDS.ethics||[]).forEach(t=>rows.push([ROOM,'倫理學問題雲','全班',t]));
     var csv=rows.map(r=>r.map(csvCell).join(',')).join('\r\n');
@@ -1031,14 +1033,14 @@ window.U3=(function(){
         var val=snap.val(),fin=()=>{root.remove();showToast('已下載 CSV＋雲端封存，並清空本場',3000);};
         if(val){firebase.database().ref('rooms/_archives/'+ROOM+'__'+stamp).set(val).then(fin,fin);}else fin();
       });
-    }else{PRE={1:[],2:[],3:[],4:[],5:[]};KAO={1:[],2:[],3:[],4:[],5:[]};CLOUDS={ethics:[]};saveLocal();[1,2,3,4,5].forEach(g=>{renderPre(g);renderKao(g);});refreshClouds();showToast('已下載 CSV 並清空本場（本機）',3000);}
+    }else{PRE={1:[],2:[],3:[],4:[],5:[],6:[]};KAO={1:[],2:[],3:[],4:[],5:[]};CLOUDS={ethics:[]};saveLocal();[1,2,3,4,5,6].forEach(g=>{renderPre(g);renderKao(g);});refreshClouds();showToast('已下載 CSV 並清空本場（本機）',3000);}
   }
 
   function initAll(){
     document.querySelectorAll('.daiuda input').forEach(inp=>inp.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'){const row=inp.closest('.daiuda');row.hasAttribute('data-pg')?dai(row):daiK(row);}}));
     document.addEventListener('keydown',e=>{if(!e.shiftKey)return;if(e.key==='C'||e.key==='c'){e.preventDefault();clearCurrent();}else if(e.key==='E'||e.key==='e'){e.preventDefault();exportAndClear();}});
     if(!initFB())loadLocal();
-    [1,2,3,4,5].forEach(g=>{renderPre(g);renderKao(g);});
+    [1,2,3,4,5,6].forEach(g=>{renderPre(g);renderKao(g);});
     refreshClouds(); makeQRs(); setStatus();
   }
   if(document.readyState!=='loading')initAll();else document.addEventListener('DOMContentLoaded',initAll);

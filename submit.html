@@ -48,9 +48,9 @@ button.send:active{transform:translateY(1px);opacity:.9}
 <div class="flash" id="flash"></div>
 <script>
 (function(){
-  var GROUPS={1:{c:'#862633'},2:{c:'#A8782E'},3:{c:'#1E5F74'},4:{c:'#6B5635'},5:{c:'#5C1A23'}};
+  var GROUPS={1:{c:'#862633'},2:{c:'#A8782E'},3:{c:'#1E5F74'},4:{c:'#6B5635'},5:{c:'#5C1A23'},6:{c:'#3E7D5A'}};
   var p=new URLSearchParams(location.search);
-  var g=(p.get('g')||'1').replace(/[^1-5]/g,'')||'1';
+  var g=(p.get('g')||'1').replace(/[^1-6]/g,'')||'1';
   var round=(p.get('r')==='kaocheng')?'kaocheng':'prologue';
   var C=GROUPS[g].c;
   document.documentElement.style.setProperty('--c',C);
