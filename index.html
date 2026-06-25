@@ -324,13 +324,24 @@ body.no-clickzones .click-zones{display:none}
   <div class="grid2" style="align-items:start;gap:2.5vw;flex:none">
     <div style="text-align:center">
       <h3 style="margin:0 0 .35em;color:var(--color-primary)">原本的飲食金字塔（1992）</h3>
-      <img class="gimg" src="images/pyramid_old_1992.jpg" alt="1992 USDA 食物金字塔：穀類為基底" style="width:100%;max-width:400px;max-height:33vh;object-fit:contain;background:#fff;padding:.4em">
-      <p class="src" style="margin-top:.35em">澱粉為基底（6–11 份），油脂與糖在頂端「少量使用」</p>
+      <div style="position:relative;display:inline-block;width:100%;max-width:520px">
+        <img src="images/pyramid_old_1992.jpg" alt="1992 食物金字塔（穀類為基底）" style="width:100%;display:block;clip-path:polygon(50% 4%,88% 90%,12% 90%);-webkit-clip-path:polygon(50% 4%,88% 90%,12% 90%)">
+        <span style="position:absolute;left:50%;top:15%;transform:translate(-50%,-50%);background:rgba(20,15,12,.62);color:#fff;font-weight:700;font-size:clamp(.88rem,1.2vw,1.25rem);line-height:1.2;padding:.22em .55em;border-radius:7px;white-space:nowrap">油脂・糖 <small style="font-weight:400">少量</small></span>
+        <span style="position:absolute;left:31%;top:35%;transform:translate(-50%,-50%);background:rgba(20,15,12,.62);color:#fff;font-weight:700;font-size:clamp(.88rem,1.2vw,1.25rem);line-height:1.2;padding:.22em .55em;border-radius:7px;white-space:nowrap">奶類 2–3</span>
+        <span style="position:absolute;left:67%;top:35%;transform:translate(-50%,-50%);background:rgba(20,15,12,.62);color:#fff;font-weight:700;font-size:clamp(.88rem,1.2vw,1.25rem);line-height:1.2;padding:.22em .55em;border-radius:7px;white-space:nowrap">肉魚蛋豆 2–3</span>
+        <span style="position:absolute;left:31%;top:58%;transform:translate(-50%,-50%);background:rgba(20,15,12,.62);color:#fff;font-weight:700;font-size:clamp(.88rem,1.2vw,1.25rem);line-height:1.2;padding:.22em .55em;border-radius:7px;white-space:nowrap">蔬菜 3–5</span>
+        <span style="position:absolute;left:67%;top:58%;transform:translate(-50%,-50%);background:rgba(20,15,12,.62);color:#fff;font-weight:700;font-size:clamp(.88rem,1.2vw,1.25rem);line-height:1.2;padding:.22em .55em;border-radius:7px;white-space:nowrap">水果 2–4</span>
+        <span style="position:absolute;left:50%;top:83%;transform:translate(-50%,-50%);background:rgba(20,15,12,.62);color:#fff;font-weight:700;font-size:clamp(.88rem,1.2vw,1.25rem);line-height:1.2;padding:.22em .55em;border-radius:7px;white-space:nowrap">穀類・澱粉 6–11</span>
+      </div>
     </div>
     <div style="text-align:center">
       <h3 style="margin:0 0 .35em;color:var(--color-primary)">2025–2030 新版（上下顛倒）</h3>
-      <img class="gimg" src="images/pyramid_new_2025.jpg" alt="2025-2030 飲食指南：蛋白與健康脂肪為主的倒金字塔" style="width:100%;max-width:400px;max-height:33vh;object-fit:contain;background:#fff;padding:.4em">
-      <p class="src" style="margin-top:.35em">蛋白與健康脂肪為主，全穀收到底部、限制精緻碳水與添加糖</p>
+      <div style="position:relative;display:inline-block;width:100%;max-width:520px">
+        <img src="images/pyramid_new_2025.jpg" alt="新版倒金字塔（蛋白與健康脂肪為主）" style="width:100%;display:block;border-radius:14px;box-shadow:var(--shadow-strong);border:1px solid rgba(212,175,55,.4)">
+        <span style="position:absolute;left:1%;top:22%;transform:translateY(-50%);min-width:25%;background:#FAF4E6;color:#1a1a1a;font-weight:700;font-size:clamp(.92rem,1.3vw,1.32rem);line-height:1.25;padding:.3em .4em;border-radius:7px;text-align:center">蛋白・乳<br>健康脂肪</span>
+        <span style="position:absolute;right:0%;top:22%;transform:translateY(-50%);min-width:26%;background:#FAF4E6;color:#1a1a1a;font-weight:700;font-size:clamp(.92rem,1.3vw,1.32rem);line-height:1.25;padding:.3em .4em;border-radius:7px;text-align:center">蔬菜<br>水果</span>
+        <span style="position:absolute;left:35%;top:80%;transform:translateY(-50%);min-width:26%;background:#FAF4E6;color:#1a1a1a;font-weight:700;font-size:clamp(.92rem,1.3vw,1.32rem);line-height:1.25;padding:.3em .4em;border-radius:7px;text-align:center">全穀</span>
+      </div>
     </div>
   </div>
   <table class="tbl" style="margin-top:.5em;font-size:clamp(.92rem,1.2vw,1.2rem)">
@@ -341,7 +352,7 @@ body.no-clickzones .click-zones{display:none}
       <tr><td class="lv">主要限制</td><td>油脂與糖（頂端少量）</td><td>精緻碳水、添加糖（每餐糖 ≤10g）</td></tr>
     </tbody>
   </table>
-  <p class="src">資料：美國《2025–2030 飲食指南》（2026/1/7 USDA／HHS 發布）。哈佛公衛學院提醒：新版圖示凸顯飽和脂肪豐富的食物，卻仍保留「飽和脂肪 ≤10%」上限——兩者的張力，正是價值思辨的好案例。</p>
+  <p class="src">資料：美國《2025–2030 飲食指南》（2026/1/7 USDA／HHS 發布）。</p>
 </section>
 
 <!-- 從作業看見：價值思辨的範疇 -->
