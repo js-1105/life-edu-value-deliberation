@@ -1271,13 +1271,21 @@ body.no-clickzones .click-zones{display:none}
 
 <section class="slide">
   <h2>「一」與「多」的實例：傷腎食物排行</h2>
-  <div class="grid2" style="align-items:center">
+  <p class="lead" style="max-width:none;margin-bottom:1vh;font-size:clamp(1.5rem,1.7vw,1.7rem)">飲食有個別差異（<b>多</b>），但「傷腎魔王」是跨越差異、幾乎人人適用的共通底線（<b>一</b>）。</p>
+  <div class="grid2" style="align-items:center;gap:2.6vw">
     <div>
-      <p class="lead" style="max-width:none">飲食選擇有強烈的個別差異，但「傷腎魔王」這類普遍規律，提供了跨越差異的<b>共通底線</b>。</p>
-      <p class="muted">價值思辨也是如此：尊重個別處境，但不放棄尋找可普遍化的原則。</p>
+      <ul class="feature-list" style="font-size:clamp(1.5rem,1.55vw,1.6rem)">
+        <li><b>珍珠奶茶</b>（最 NG）：高糖高油，釀三高、痛風、脂肪肝</li>
+        <li><b>日式拉麵</b>：一碗鈉含量恐達 2000–4000mg</li>
+        <li><b>炸雞排</b>：回鍋油致癌物、重金屬、高鹽高糖</li>
+        <li><b>三寶飯</b>：脆皮肉類＋醬汁，高鹽高糖高熱量</li>
+        <li><b>鐵板麵</b>：油麵鈉量驚人，「最傷腎早餐冠軍」</li>
+      </ul>
+      <p class="src" style="margin-top:.5em">資料：早安健康。</p>
     </div>
-    <div class="video-wrap">
-      <iframe src="https://www.youtube-nocookie.com/embed/ZS571kxDcVw" title="傷腎食物排行" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
+    <div class="video-wrap" style="max-width:520px">
+      <iframe src="https://www.youtube-nocookie.com/embed/ZS571kxDcVw" title="傷腎食物排行" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;fullscreen" allowfullscreen></iframe>
+      <button onclick="var f=this.closest('.video-wrap').querySelector('iframe');var r=f.requestFullscreen||f.webkitRequestFullscreen||f.mozRequestFullScreen||f.msRequestFullscreen;if(r)r.call(f);" title="影片全螢幕" style="position:absolute;top:8px;right:8px;z-index:70;width:40px;height:40px;border:none;border-radius:8px;background:rgba(0,0,0,.55);color:#fff;font-size:21px;line-height:1;cursor:pointer">⛶</button>
     </div>
   </div>
 </section>
