@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>單元三 · 現場投票</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<script src="fbconfig.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<style>
+:root{--c:#862633}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:"Noto Sans TC","PingFang TC",sans-serif;background:#FAF7F2;color:#1A1A1A;line-height:1.6;padding:env(safe-area-inset-top) 0 2em}
+.bar{background:var(--c);color:#fff;padding:1.1em;position:sticky;top:0;z-index:10;box-shadow:0 3px 14px rgba(0,0,0,.18)}
+.bar .g{font-family:"Noto Serif TC",serif;font-weight:900;font-size:1.4rem}
+.wrap{max-width:600px;margin:0 auto;padding:1.2em 1.1em}
+.q{font-size:1.3rem;font-weight:700;line-height:1.55;margin-bottom:1.1em}
+.btns{display:flex;flex-direction:column;gap:1em}
+button.opt{width:100%;border:3px solid var(--c);border-radius:16px;padding:1.1em;font-size:1.5rem;font-weight:900;font-family:inherit;cursor:pointer;background:#fff;color:var(--c);letter-spacing:.08em}
+button.opt:active{transform:translateY(1px)}
+button.opt.sel{background:var(--c);color:#fff}
+.tally{margin-top:1.4em;display:none}
+.tally.show{display:block}
+.row{margin:.6em 0}
+.row .lab{display:flex;justify-content:space-between;font-weight:700;margin-bottom:.25em;font-size:1.05rem}
+.track{background:#eadfce;border-radius:999px;height:26px;overflow:hidden}
+.fill{height:100%;border-radius:999px;transition:width .5s;width:0}
+.fill.yes{background:#3E7D5A}.fill.no{background:#862633}
+.foot{text-align:center;color:#6B6B6B;font-size:.85rem;margin-top:1.2em}
+.flash{position:fixed;left:50%;bottom:1.5em;transform:translateX(-50%) translateY(20px);background:rgba(0,0,0,.85);color:#fff;padding:.6em 1.4em;border-radius:999px;opacity:0;transition:.3s;z-index:50;pointer-events:none}
+.flash.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="bar"><div class="g" id="gTitle">現場投票</div></div>
+<div class="wrap">
+  <p class="q" id="qText">載入中…</p>
+  <div class="btns">
+    <button class="opt" data-v="可以" onclick="vote('可以',this)">可以</button>
+    <button class="opt" data-v="不可以" onclick="vote('不可以',this)">不可以</button>
+  </div>
+  <div class="tally" id="tally">
+    <div class="row"><div class="lab"><span>可以</span><span id="ny">0（0%）</span></div><div class="track"><div class="fill yes" id="by"></div></div></div>
+    <div class="row"><div class="lab"><span>不可以</span><span id="nn">0（0%）</span></div><div class="track"><div class="fill no" id="bn"></div></div></div>
+  </div>
+  <p class="foot" id="foot">連線中…</p>
+</div>
+<div class="flash" id="flash"></div>
+<script>
+(function(){
+  var QS={
+    trolley:{c:'#1E5F74',t:'「電車難題」',q:'扳動道岔，讓電車轉向、犧牲 1 人，救回另一軌道上的 5 人——你認為這樣做可以嗎？'},
+    organ:{c:'#862633',t:'「器官移植難題」',q:'殺死 1 名健康的人、取出器官救 5 名瀕死病人——你認為這樣做可以嗎？'}
+  };
+  var p=new URLSearchParams(location.search);
+  var q=(p.get('q')||'trolley'); if(!QS[q])q='trolley';
+  var Q=QS[q], C=Q.c;
+  document.documentElement.style.setProperty('--c',C);
+  document.getElementById('gTitle').textContent='現場投票 · '+Q.t;
+  document.getElementById('qText').textContent=Q.q;
+  document.title=Q.t+' · 投票';
+  function configured(){return window.FB_CONFIG&&FB_CONFIG.apiKey&&FB_CONFIG.apiKey.indexOf('PASTE')<0;}
+  function listify(o){return o?Object.keys(o).map(function(k){return o[k].v;}):[];}
+  var DB=null, foot=document.getElementById('foot');
+  var LKEY='u3_poll_'+q+'_'+(window.FB_ROOM||'local');
+  function flash(t){var f=document.getElementById('flash');f.textContent=t;f.classList.add('show');setTimeout(function(){f.classList.remove('show');},1400);}
+  function render(arr){
+    var y=arr.filter(function(v){return v==='可以';}).length, n=arr.filter(function(v){return v==='不可以';}).length, tot=y+n||1;
+    document.getElementById('tally').classList.add('show');
+    document.getElementById('by').style.width=Math.round(y/tot*100)+'%';
+    document.getElementById('bn').style.width=Math.round(n/tot*100)+'%';
+    document.getElementById('ny').textContent=y+'（'+Math.round(y/tot*100)+'%）';
+    document.getElementById('nn').textContent=n+'（'+Math.round(n/tot*100)+'%）';
+  }
+  function loadLocal(){try{return JSON.parse(localStorage.getItem(LKEY))||[];}catch(e){return [];}}
+  function saveLocal(a){try{localStorage.setItem(LKEY,JSON.stringify(a));}catch(e){}}
+  window.vote=function(v,btn){
+    document.querySelectorAll('.opt').forEach(function(b){b.classList.remove('sel');});
+    btn.classList.add('sel');
+    if(DB){DB.push({v:v,t:Date.now()});}
+    else{var a=loadLocal();a.push(v);saveLocal(a);render(a);}
+    flash('已投票：'+v);
+  };
+  if(configured()&&typeof firebase!=='undefined'){
+    try{
+      firebase.initializeApp(window.FB_CONFIG);
+      DB=firebase.database().ref('rooms/'+(window.FB_ROOM||'default')+'/polls/'+q);
+      DB.on('value',function(snap){render(listify(snap.val()||{}));});
+      foot.textContent='● 已連線（房號 '+(window.FB_ROOM||'default')+'）—— 投票即時更新到投影幕';
+    }catch(e){foot.textContent='⚠ 連線失敗，本機暫存：'+e.message;render(loadLocal());}
+  }else{foot.textContent='○ 尚未設定雲端（fbconfig.js）——此頁僅本機測試';render(loadLocal());}
+})();
+</script>
+</body>
+</html>
