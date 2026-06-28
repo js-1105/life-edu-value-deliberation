@@ -124,6 +124,9 @@ ul.fl li::before{content:"";position:absolute;left:0;top:1.05em;width:.7em;heigh
 .cc-overlay{position:absolute;left:3%;right:3%;bottom:7%;z-index:65;text-align:center;pointer-events:none;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;font-weight:700;line-height:1.45}
 .cc-overlay span{display:inline;background:rgba(0,0,0,.62);color:#fff;font-size:clamp(1.05rem,2.1vw,1.95rem);padding:.12em .5em;border-radius:6px;text-shadow:0 2px 5px rgba(0,0,0,.92);-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .video-wrap:fullscreen .cc-overlay span{font-size:clamp(1.6rem,2.6vw,2.5rem)}
+.video-wrap.vzoom{position:fixed;inset:0;width:100vw;height:100vh;max-width:none;margin:0;border-radius:0;z-index:99999;background:#000}
+.video-wrap.vzoom .cc-overlay{bottom:6%}
+.video-wrap.vzoom .cc-overlay span{font-size:clamp(1.6rem,2.7vw,2.6rem)}
 .localvid{display:flex;gap:.7em;align-items:center;background:#fff;border:1px solid var(--color-line);border-left:4px solid var(--color-accent);border-radius:12px;padding:.7em .95em;box-shadow:var(--shadow-soft);margin:.35em 0;max-width:34em}
 /* 圖片大圖 */
 .gimg{display:block;border-radius:16px;box-shadow:var(--shadow-strong);border:1px solid rgba(212,175,55,.4);object-fit:cover}
@@ -1345,7 +1348,7 @@ body.no-clickzones .click-zones{display:none}
     <div class="video-wrap" id="vw-s61">
       <iframe id="yt-s61" src="https://www.youtube-nocookie.com/embed/cckBow0fDGg?enablejsapi=1&rel=0&modestbranding=1" title="Better to Have Never Existed - Jordan Peterson" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;fullscreen" allowfullscreen></iframe>
       <div class="cc-overlay" id="cc-s61"></div>
-      <button onclick="var w=this.closest('.video-wrap');var r=w.requestFullscreen||w.webkitRequestFullscreen||w.mozRequestFullScreen||w.msRequestFullscreen;if(r)r.call(w);" title="影片全螢幕（含字幕）" style="position:absolute;top:8px;right:8px;z-index:70;width:40px;height:40px;border:none;border-radius:8px;background:rgba(0,0,0,.55);color:#fff;font-size:21px;line-height:1;cursor:pointer">⛶</button>
+      <button onclick="vzoomS61(this)" title="影片放大／還原（含字幕）" style="position:absolute;top:8px;right:8px;z-index:100000;width:40px;height:40px;border:none;border-radius:8px;background:rgba(0,0,0,.55);color:#fff;font-size:21px;line-height:1;cursor:pointer">⛶</button>
     </div>
   </div>
   <p class="src" style="text-align:center;max-width:none">Prof. Jordan Peterson, "Better to Have Never Existed?"</p>
@@ -1812,6 +1815,16 @@ var CUES=[
 ];
 function ccShow(t){t+=OFFSET;var s='';for(var i=0;i<CUES.length;i++){if(t>=CUES[i][0]&&(i+1>=CUES.length||t<CUES[i+1][0])){s=CUES[i][1];break;}}var el=document.getElementById('cc-s61');if(el)el.innerHTML=s?('<span>'+s+'</span>'):'';}
 window.onYouTubeIframeAPIReady=function(){try{new YT.Player('yt-s61',{events:{onReady:function(e){setInterval(function(){try{ccShow(e.target.getCurrentTime());}catch(_){}} ,250);}}});}catch(_){}}
+window.vzoomS61=function(btn){var w=btn.closest('.video-wrap');
+  if(w.classList.contains('vzoom')){
+    w.classList.remove('vzoom');
+    document.querySelectorAll('.fitwrap[data-fz]').forEach(function(fw){fw.style.transform=fw.getAttribute('data-fz');fw.removeAttribute('data-fz');});
+    btn.textContent='⛶';
+  }else{
+    var p=w.parentElement;
+    while(p){ if(p.classList&&p.classList.contains('fitwrap')){ p.setAttribute('data-fz',p.style.transform||''); p.style.transform='none'; } p=p.parentElement; }
+    w.classList.add('vzoom'); btn.textContent='✕';
+  }};
 var tag=document.createElement('script');tag.src='https://www.youtube.com/iframe_api';document.body.appendChild(tag);
 })();
 </script>
