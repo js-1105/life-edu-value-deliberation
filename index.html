@@ -120,6 +120,10 @@ ul.fl li::before{content:"";position:absolute;left:0;top:1.05em;width:.7em;heigh
 /* 影片 */
 .video-wrap{position:relative;z-index:60;width:100%;max-width:560px;aspect-ratio:16/9;border-radius:12px;overflow:hidden;box-shadow:var(--shadow-strong);margin:.3em 0;background:#000}
 .video-wrap iframe{width:100%;height:100%;border:0}
+.video-wrap:fullscreen{background:#000;max-width:none;border-radius:0}
+.cc-overlay{position:absolute;left:3%;right:3%;bottom:7%;z-index:65;text-align:center;pointer-events:none;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;font-weight:700;line-height:1.45}
+.cc-overlay span{display:inline;background:rgba(0,0,0,.62);color:#fff;font-size:clamp(1.05rem,2.1vw,1.95rem);padding:.12em .5em;border-radius:6px;text-shadow:0 2px 5px rgba(0,0,0,.92);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.video-wrap:fullscreen .cc-overlay span{font-size:clamp(1.6rem,2.6vw,2.5rem)}
 .localvid{display:flex;gap:.7em;align-items:center;background:#fff;border:1px solid var(--color-line);border-left:4px solid var(--color-accent);border-radius:12px;padding:.7em .95em;box-shadow:var(--shadow-soft);margin:.35em 0;max-width:34em}
 /* 圖片大圖 */
 .gimg{display:block;border-radius:16px;box-shadow:var(--shadow-strong);border:1px solid rgba(212,175,55,.4);object-fit:cover}
@@ -1338,9 +1342,10 @@ body.no-clickzones .click-zones{display:none}
       <p class="lead" style="max-width:none">「<b>不曾存在，會不會更好？</b>」——當虛無主義蔓延，連「生育是否負責任」都成了爭論。</p>
       <p class="muted">這正回扣了「終極信念」：對存有與虛無的根本判斷，會一路滲透到最具體的人生抉擇。</p>
     </div>
-    <div class="video-wrap">
-      <iframe src="https://www.youtube-nocookie.com/embed/cckBow0fDGg" title="Better to Have Never Existed - Jordan Peterson" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;fullscreen" allowfullscreen></iframe>
-      <button onclick="var f=this.closest('.video-wrap').querySelector('iframe');var r=f.requestFullscreen||f.webkitRequestFullscreen||f.mozRequestFullScreen||f.msRequestFullscreen;if(r)r.call(f);" title="影片全螢幕" style="position:absolute;top:8px;right:8px;z-index:70;width:40px;height:40px;border:none;border-radius:8px;background:rgba(0,0,0,.55);color:#fff;font-size:21px;line-height:1;cursor:pointer">⛶</button>
+    <div class="video-wrap" id="vw-s61">
+      <iframe id="yt-s61" src="https://www.youtube-nocookie.com/embed/cckBow0fDGg?enablejsapi=1&rel=0&modestbranding=1" title="Better to Have Never Existed - Jordan Peterson" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;fullscreen" allowfullscreen></iframe>
+      <div class="cc-overlay" id="cc-s61"></div>
+      <button onclick="var w=this.closest('.video-wrap');var r=w.requestFullscreen||w.webkitRequestFullscreen||w.mozRequestFullScreen||w.msRequestFullscreen;if(r)r.call(w);" title="影片全螢幕（含字幕）" style="position:absolute;top:8px;right:8px;z-index:70;width:40px;height:40px;border:none;border-radius:8px;background:rgba(0,0,0,.55);color:#fff;font-size:21px;line-height:1;cursor:pointer">⛶</button>
     </div>
   </div>
   <p class="src" style="text-align:center;max-width:none">Prof. Jordan Peterson, "Better to Have Never Existed?"</p>
@@ -1674,6 +1679,140 @@ window.U3=(function(){
   }
   if(document.readyState!=='loading')initAll();else document.addEventListener('DOMContentLoaded',initAll);
   return {refreshClouds};
+})();
+</script>
+<!-- S61 影片繁中字幕（自製，與語音同步；全螢幕＝容器全螢幕，字幕同步顯示） -->
+<script>
+(function(){
+var OFFSET=0; // 正數＝字幕提早
+var CUES=[
+[0,"我最近在讀一本書，待會兒會談到它，書名叫《不曾存在會更好》。"],
+[9.9,"作者是南非開普敦的哲學家，姓貝納塔（Benatar）。"],
+[16,"他的論證，我認為似是而非、是刻意建構出來的。"],
+[24.1,"他主張：因為人生充滿苦難，連美好的人生也滿是苦難，"],
+[33,"所以把孩子帶到世上是錯的——因為即使在好的人生裡，苦也多過樂。"],
+[41,"而且基於同樣理由，不存在反而更好。"],
+[46.2,"但我讀這本書的感覺是：他先有了結論，才寫書去合理化它。"],
+[52.2,"這其實跟寫書該有的順序正好相反。"],
+[55.7,"寫書應該先有一個真正的問題——一個你還不知道答案的問題；"],
+[63.1,"然後拼命研讀、廣泛閱讀，看能不能真正搏鬥出某種解答；"],
+[71.9,"並帶著讀者走過你思考的歷程，"],
+[77.7,"讓他們即使結論不同，至少能跟上你的推理。"],
+[81.7,"我認為他不是這樣做，而是倒著寫的。"],
+[84.9,"但這問題我想了很久，因為它也是我在自己寫作中一直纏鬥的問題。"],
+[94.3,"例如歌德《浮士德》裡那個梅菲斯特式（魔鬼）的角色，"],
+[100.2,"還有《卡拉馬助夫兄弟們》裡的伊凡，講的其實是同一套："],
+[105.8,"存在如此充滿麻煩與苦難，不如根本不存在。"],
+[112.7,"我對這種說法的疑慮之一是：如果你真的開始這樣想，會怎樣？"],
+[121,"因為我觀察到，開始這樣想的人，不會停在這裡。"],
+[126.2,"他們會對「存在」本身發怒——就像該隱的故事那樣。"],
+[131.4,"接著開始向存在復仇，並且層層升級，"],
+[138.2,"最後變成向上帝復仇，控訴祂讓萬物存在這樁「罪」，"],
+[142.8,"我認為這是人所能懷抱的、最深的一種仇恨。"],
+[146.9,"當你被一種極深的情緒攫住時，你其實處在近乎宗教的狀態，"],
+[153.5,"而這跟你是否相信某個超越的神，幾乎無關。"],
+[160,"你可以陷入深到極點的情緒，它帶有宗教意義，"],
+[164.5,"卻不必然指向某個超越的存有。"],
+[169.8,"但接著我想到：那套論證可以被無限地操弄、任意劃界。"],
+[176.9,"首先，苦難和幸福要怎麼衡量？怎麼給它們分配權重？"],
+[184.8,"根本沒辦法，只能任意決定。"],
+[187.1,"於是你想論證「苦多於樂」，"],
+[190.9,"只要把苦的權重壓得比樂重，結論就成立了——如此而已。"],
+[196.3,"這是一個問題；但我認為還有更深的問題。"],
+[200.5,"我之前還讀了另一本書，作者是主持「人類基因組計畫」的人，"],
+[214.4,"書名大概叫《一位科學家為上帝辯護》之類的。"],
+[217.7,"他提到一個他認為足以支持「相信超越存有」的現象，"],
+[230,"就是人類的道德直覺：我們有是非善惡之感。"],
+[235.8,"這正是《創世紀》裡亞當、夏娃故事所宣告的："],
+[245.7,"是非之感的到來，也就是「善惡的知識」。"],
+[246.7,"這不是我們會加諸動物的東西，而是人類獨有的。"],
+[254.8,"動物可以是掠食者、也可以溫馴，你能和牠們建立關係，"],
+[260.8,"但你不會說有「邪惡的貓」或「邪惡的狼」，即使牠們會獵食。"],
+[265,"人類卻擁有判別善惡、是非的能力，"],
+[270.9,"這是我們存在中不可分割的一部分。"],
+[274.5,"你可以為它提出演化的、生物學的解釋，"],
+[278.1,"就像幾乎所有與人相關的重要特質一樣，因為我們本就是生物；"],
+[286,"但我們其實並不真正了解這件事的意義。"],
+[289.4,"在亞當、夏娃的故事裡，「獲得善惡知識」這個領悟，"],
+[295.4,"被描繪成一場具有宇宙意義的轉變，"],
+[298.6,"它在「存在」的結構上，劃下了一道永久的裂痕。"],
+[302.8,"如果你把人看成無限宇宙中一粒微塵上、微不足道的螞蟻，"],
+[311,"而宇宙根本不在乎我們，"],
+[315.9,"那麼人類能不能分辨善惡，又有什麼要緊？"],
+[319.8,"但如果你讓「意識」在存在中佔據核心地位——這完全講得通，"],
+[325.4,"因為就我們所知，沒有意識就沒有存在，"],
+[330.5,"那麼意識也許遠比我們以為的更核心。"],
+[332.8,"我認為這沒有真正站得住的反駁。"],
+[338.7,"你可以說意識只是附帶現象、世界根本上是唯物的，"],
+[345.7,"說有沒有意識都無所謂；但反方的說法同樣可信。"],
+[349.9,"而我們親身的經驗顯然是：意識至關重要。"],
+[355.2,"我們多半把彼此當成有價值的、有意識的存有，"],
+[359.7,"也不會願意放棄意識，即使它往往是對痛苦的意識。"],
+[364.1,"這本書還有一個問題：它預設了「人生是為了幸福」。"],
+[372.9,"我不認為這是對的，也不認為人是這樣經驗人生的。"],
+[376.7,"我可能錯了，但在我看來，"],
+[379.3,"人經驗到的人生，比較像是一連串關鍵的倫理抉擇。"],
+[388.4,"我很難想像有另一個跟我相像的存有，"],
+[402.1,"不是時時刻刻都在掙扎：下一步「該做的對的事」到底是什麼。"],
+[409,"那從來不是顯而易見的，一點都不。"],
+[411.4,"這也不代表你就會去做對的事——很多時候你不會，連你自己都這麼判斷，"],
+[419,"因為你一直在犯錯。"],
+[421.9,"有時你根本不知道自己在做什麼，也許是錯、也許不是，誰說得準？"],
+[425.9,"但那不是我要講的。"],
+[426,"我講的是：當你明知道自己做的是錯的，卻還是去做。"],
+[430,"人們一天到晚這樣，這也非常奇特。"],
+[433.5,"你會以為，只要知道、並告訴自己這是錯的，"],
+[438.8,"就足以讓你不去做了；但人根本不是這樣。"],
+[442.2,"你可以告訴自己某件事是錯的五十次，第五十一次照樣去做，"],
+[447.8,"然後感到——大概是你應得的那種難受，"],
+[451.7,"但那並阻止不了你。"],
+[454.5,"所以這種觀點——認為人生的苦難抵銷了它的價值——還有一個問題："],
+[462.1,"它預設了「幸福、或至少沒有痛苦」才是評斷人生的正確標準。"],
+[470.2,"我不認為我們是這樣經驗人生的；"],
+[474.4,"我們真正做的，是讓自己一再經歷一連串椎心的道德抉擇。"],
+[481.6,"聖經故事——以及其中隱含的整套哲學——有個很重要的地方："],
+[494.5,"它呈現的人生，是一個個「個人」，而不是群體，"],
+[502.8,"且無時無刻不在為自己的道德抉擇而煎熬。"],
+[506.9,"他們與上帝有關係，但那不是發號施令式的關係。"],
+[515.8,"即使是上帝直接對他說話的人——我猜那其實不是你會想遇上的事——"],
+[526,"也仍然不斷被自己的道德抉擇折磨。"],
+[533.6,"所以，世界被呈現為一片「道德的地景」，"],
+[538.8,"而不是一個靠幸福來自我證成的地方。"],
+[543.9,"人，則是穿行於這片道德地景的存有，"],
+[549.4,"靠著一個個倫理抉擇，決定世界的走向。"],
+[554.3,"在我看來這是對的，而它跟「幸福」完全是兩回事，"],
+[560.2,"是一個截然不同的存在範疇。"],
+[565.6,"我們確實在做選擇，在與未來搏鬥；"],
+[572.5,"而未來，是以「一片可能性的領域」向我們顯現的。"],
+[575.7,"這樣理解，比把未來看成「一切已被決定之物」要準確得多。"],
+[585.5,"它以可能性的領域呈現：其中有好的選擇，"],
+[591.2,"也有差的、甚至邪惡的選擇，而我們一直在其中斡旋，"],
+[595.3,"決定要讓哪一個選擇成為真實。"],
+[599.5,"這在現象學上幾乎無可爭辯；"],
+[603.1,"我們也確實這樣對待彼此，因為我們會要彼此為行為負責，"],
+[609.5,"除了少數例外。"],
+[612.8,"我們每一刻都在決定：要讓事情變得更好，還是更糟。"],
+[616.8,"我認為這是對的。而我們的文化中，瀰漫著一股極深的「反人類」氣息，"],
+[626.9,"它把人類看成地球上的癌細胞，認為人應該愈少愈好。"],
+[632.6,"這跟那位寫《不曾存在會更好》的作者，是同一種精神；"],
+[639,"但我不這麼看。"],
+[641,"我覺得人們其實表現得相當好了——"],
+[644.4,"畢竟我們像是一條腿被捕獸夾夾住、頭被老虎鉗鉗著。"],
+[649.5,"人生真的很艱難。"],
+[650.8,"而我們竟然沒有時時刻刻都殘暴嗜殺，光這一點就很了不起，"],
+[656.5,"考慮到我們實際要面對的一切。"],
+[658.6,"我們甚至會刻意去誠實、慷慨、利他，"],
+[664.5,"在極其艱困的處境中彼此扶持，"],
+[666.6,"有時還能在最嚴酷的考驗下，表現得高貴。"],
+[671.1,"索忍尼辛在《古拉格群島》裡，一個接一個地講："],
+[674.6,"有人卑劣不堪，"],
+[678.1,"但也有人在最可怕的威脅下，始終沒有出賣自己的品格。"],
+[682.6,"讀到這些，真的會讓你深深震動、深深思索。"],
+[691,""]
+];
+function ccShow(t){t+=OFFSET;var s='';for(var i=0;i<CUES.length;i++){if(t>=CUES[i][0]&&(i+1>=CUES.length||t<CUES[i+1][0])){s=CUES[i][1];break;}}var el=document.getElementById('cc-s61');if(el)el.innerHTML=s?('<span>'+s+'</span>'):'';}
+window.onYouTubeIframeAPIReady=function(){try{new YT.Player('yt-s61',{events:{onReady:function(e){setInterval(function(){try{ccShow(e.target.getCurrentTime());}catch(_){}} ,250);}}});}catch(_){}}
+var tag=document.createElement('script');tag.src='https://www.youtube.com/iframe_api';document.body.appendChild(tag);
 })();
 </script>
 </body>
