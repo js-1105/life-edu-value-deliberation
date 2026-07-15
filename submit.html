@@ -64,25 +64,19 @@ button.send:active{transform:translateY(1px);opacity:.9}
       5:{t:'題五　過失致死、傷害致死與殺人的區別',d:'用 <b>F／f／I／A</b> 區別三罪，並說明<b>法定刑何以輕重有別</b>',ph:'例：死亡落在 F−f 是過失致死；落在 I 是殺人……'},
       6:{t:'題六　開槍案（30 上 2671）',d:'本案是<b>什麼行為</b>？判決「<b>故意＋殺人未遂</b>」是否妥當？',ph:'例：以行為人主觀預期 f 判故意；走避未死故未遂……'}
     };
-    var qnum=Number(g);
-    if(qnum>=1&&qnum<=6){
-      var Qg=Q[qnum];
-      document.getElementById('gSub').textContent=Qg.t;
-      document.getElementById('introTxt').innerHTML='你們這一組討論 <b>'+Qg.t+'</b>：'+Qg.d+'。把全組討論的<b>精華</b>都打上來——重點、不同立場與理由都記下來，<b>不只一句、可分多次送出</b>，即時出現在投影幕你們這一組的頁面。';
-      document.getElementById('lblMain').textContent='我們這一組的討論精華';
-      document.getElementById('main').placeholder=Qg.ph;
-      document.getElementById('blkMain').style.borderTopColor=C;
-      document.title='第'+g+'組 '+Qg.t+' · 投稿';
-      window.U3_QTAG='【'+Qg.t+'】';
-    }else{
-      var allTitles=[1,2,3,4,5,6].map(function(k){return Q[k].t;}).join('、');
-      document.getElementById('gSub').textContent='六題任選一題深入討論';
-      document.getElementById('introTxt').innerHTML='你們這一組可以從六道複習題中<b>任選一題</b>深入討論：'+allTitles+'。請先寫下你們選的是<b>哪一題</b>，再把討論<b>精華</b>打上來——不只一句、可分多次送出，即時出現在投影幕你們這一組的頁面。';
-      document.getElementById('lblMain').textContent='我們這一組選的題目與討論精華';
-      document.getElementById('main').placeholder='例：我們這組選「題三 Pojman 推人案」深入討論——我們認為……（先寫選哪一題，再寫討論重點，可分多次送出）';
-      document.getElementById('blkMain').style.borderTopColor=C;
-      document.title='第'+g+'組 六題任選 · 投稿';
-    }
+    // 三回合：每回合兩題，4組做一題（第1–4組做該回合前一題，第5–8組做後一題）
+    var ROUNDQ={1:[1,2],2:[3,4],3:[5,6]};
+    var rd=(p.get('rd')||'1').replace(/[^1-3]/g,'')||'1';
+    var pair=ROUNDQ[rd]||ROUNDQ[1];
+    var qnum=(Number(g)<=4)?pair[0]:pair[1];
+    var Qg=Q[qnum]||Q[1];
+    document.getElementById('gSub').textContent='第'+rd+'回合·'+Qg.t;
+    document.getElementById('introTxt').innerHTML='你們這一組本回合討論 <b>'+Qg.t+'</b>：'+Qg.d+'。把全組討論的<b>精華</b>都打上來——重點、不同立場與理由都記下來，<b>不只一句、可分多次送出</b>，即時出現在投影幕你們這一組的頁面（三回合的討論會依序累加在同一頁）。';
+    document.getElementById('lblMain').textContent='我們這一組的討論精華';
+    document.getElementById('main').placeholder=Qg.ph;
+    document.getElementById('blkMain').style.borderTopColor=C;
+    document.title='第'+g+'組 '+Qg.t+' · 投稿';
+    window.U3_QTAG='【'+Qg.t+'】';
   }else if(round==='ethicsq3'){
     document.getElementById('gSub').textContent='倫理學疑問·問題意識';
     document.getElementById('introTxt').innerHTML='回到<b>課前作業第三題</b>——「提出你在倫理學的學習上不太明白的一個主題，設法說明你不太瞭解與需要釐清的地方」。整合全組意見，<b>最多提出兩則疑問</b>，每一則都要有<b>詳細的問題意識說明</b>：卡在哪個概念、為什麼不清楚、跟哪個案例或情境有關。<b>每次送出一則，最多兩則</b>，投影幕即時顯示。';
